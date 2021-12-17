@@ -221,13 +221,11 @@ dependencies:
   - ptyprocess=0.7.0=pyhd3eb1b0_2
   - py=1.10.0=pyhd3eb1b0_0
   - py-lief=0.10.1=py38haf313ee_0
-  - pycodestyle=2.6.0=pyhd3eb1b0_0
   - pycosat=0.6.3=py38h1de35cc_1
   - pycparser=2.20=py_2
   - pycurl=7.43.0.6=py38hddc9c9b_0
   - pydocstyle=6.0.0=pyhd3eb1b0_0
   - pyerfa=1.7.3=py38h9ed2024_0
-  - pyflakes=2.2.0=pyhd3eb1b0_0
   - pygments=2.8.1=pyhd3eb1b0_0
   - pyjwt=2.1.0=py38hecd8cb5_0
   - pylint=2.7.4=py38hecd8cb5_1
@@ -338,4 +336,8 @@ dependencies:
   - zope.event=4.5.0=py38_0
   - zope.interface=5.3.0=py38h9ed2024_0
   - zstd=1.4.5=h41d2c2f_0
+  - pip:
+    - flake8-docstrings==1.6.0
+    - pycodestyle==2.7.0
+    - pyflakes==2.3.1
 prefix: /Users/aaronplumin/opt/anaconda3

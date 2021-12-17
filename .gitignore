@@ -268,3 +268,27 @@ cython_debug/
 # Orga
 orga/
 resources/orga/
+
+# STAR output
+src/resources/Aligned.out.fa
+src/resources/Aligned.out.sam
+src/resources/GenomeDir/chrLength.txt
+src/resources/GenomeDir/chrName.txt
+src/resources/GenomeDir/chrNameLength.txt
+src/resources/GenomeDir/chrStart.txt
+src/resources/GenomeDir/exonGeTrInfo.tab
+src/resources/GenomeDir/exonInfo.tab
+src/resources/GenomeDir/geneInfo.tab
+src/resources/GenomeDir/Genome
+src/resources/GenomeDir/genomeParameters.txt
+src/resources/GenomeDir/Log.out
+src/resources/GenomeDir/SA
+src/resources/GenomeDir/SAindex
+src/resources/GenomeDir/sjdbInfo.txt
+src/resources/GenomeDir/sjdbList.fromGTF.out.tab
+src/resources/GenomeDir/sjdbList.out.tab
+src/resources/GenomeDir/transcriptInfo.tab
+src/resources/Log.final.out
+src/resources/Log.out
+src/resources/Log.progress.out
+src/resources/SJ.out.tab

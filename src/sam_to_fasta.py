@@ -1,10 +1,11 @@
-"""
-Convert SAM to FASTA file.
-"""
+"""Convert SAM to FASTA file."""
 import sys
 
 
-def main(sam_path, fasta_path):
+def main(
+        sam_path: str,
+        fasta_path: str,
+) -> None:
     """Convert a SAM file to a FASTA file.
 
     Args:
@@ -14,13 +15,13 @@ def main(sam_path, fasta_path):
     Returns:
         None
     """
-    content = open(sam_path, 'r').readlines()
-    headers = list()
-    sequences = list()
+    content: list = open(sam_path, 'r').readlines()
+    headers: list = list()
+    sequences: list = list()
 
     for line in content:
-        line_fields = line.split('\t')
-        current_header = ""
+        line_fields: list = line.split('\t')
+        current_header: str = ""
         if not line.startswith('@'):
             if len(line) > 0:
                 for field in range(9):
@@ -43,5 +44,6 @@ def main(sam_path, fasta_path):
 if __name__ == '__main__':
     try:
         main(sys.argv[1], sys.argv[2])
-    except:
-        print('ERROR: Please input "python sam_to_fasta.py <path to existing SAM file> <path to FASTA file>"!')
+    except IndexError or FileNotFoundError:
+        print('ERROR: Please input "python sam_to_fasta.py'
+              ' <path to existing SAM file> <path to FASTA file>"!')

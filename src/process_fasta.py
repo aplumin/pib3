@@ -1,9 +1,11 @@
-"""Processing PASTA files."""
+"""Process PASTA files."""
 import sys
 import numpy as np
 
 
-def parse_fasta(path):
+def parse_fasta(
+        path: str,
+) -> (list, list):
     """Parse headers and sequences of a PASTA file.
 
     Args:
@@ -12,20 +14,17 @@ def parse_fasta(path):
     Returns:
         tuple of list of headers and list of sequences
     """
-    print(path)
-    open(path)
-    content = open(path, 'r').readlines()
-    print(content)
-    headers = list()
-    sequences = list()
-    current_seq = ''
+    content: list = open(path, 'r').readlines()
+    headers: list = list()
+    sequences: list = list()
+    current_seq: str = ""
 
     for line in content:
         if line.startswith('>'):  # new header
             headers.append((line[1:]).strip())
             if len(current_seq) > 0:  # current sequence not empty
                 sequences.append(current_seq)
-                current_seq = ''
+                current_seq = ""
         else:  # append line of continuous sequence
             current_seq += line.strip()
 
@@ -36,7 +35,9 @@ def parse_fasta(path):
     return headers, sequences
 
 
-def discard_ambiguous_seqs(content):
+def discard_ambiguous_seqs(
+        content: list,
+) -> list:
     """Discard any sequences with non DNA base letters.
 
     Args:
@@ -45,12 +46,12 @@ def discard_ambiguous_seqs(content):
     Returns:
         list of sequences which exclusively consist of DNA base letters
     """
-    unambiguous_seqs = list()
-    seq_index = 0
+    unambiguous_seqs: list = list()
+    seq_index: int = 0
 
     while seq_index < len(content):
-        seq_uppercase = content[seq_index].upper()
-        valid_counter = 0
+        seq_uppercase: str = content[seq_index].upper()
+        valid_counter: int = 0
 
         for c in seq_uppercase:
             if c not in ['A', 'C', 'G', 'T']:
@@ -65,7 +66,9 @@ def discard_ambiguous_seqs(content):
     return unambiguous_seqs
 
 
-def nucleotide_frequencies(content):
+def nucleotide_frequencies(
+        content: list,
+) -> None:
     """Print frequencies of nucleotides.
 
     Args:
@@ -74,7 +77,7 @@ def nucleotide_frequencies(content):
     Returns:
         None
     """
-    counters = np.array([0, 0, 0, 0])  # A,C,G,T
+    counters: np.array = np.array([0, 0, 0, 0])  # A,C,G,T
 
     for seq in content:
         for c in seq:
@@ -87,8 +90,8 @@ def nucleotide_frequencies(content):
             elif c in ['t', 'T']:
                 counters[3] += 1
 
-    total_nucs = np.sum(counters)
-    frequencies = np.round(counters / total_nucs, 1)
+    total_nucs: np.array = np.sum(counters)
+    frequencies: np.array = np.round(counters / total_nucs, 1)
 
     print('A:', frequencies[0])
     print('C:', frequencies[1])
@@ -96,8 +99,14 @@ def nucleotide_frequencies(content):
     print('T:', frequencies[3])
 
 
-def map_reads(query_path, reference_path):
+def map_reads(
+        query_path: str,
+        reference_path: str
+) -> dict:
     """Map reads to reference sequences.
+
+    Parse FASTA files, print nucleotide frequencies, and map query sequences to
+    given reference sequences.
 
     Args:
         query_path: path to FASTA file with query sequences
@@ -112,9 +121,9 @@ def map_reads(query_path, reference_path):
     reference_names, reference_seqs = parse_fasta(reference_path)
 
     # discard queries with non-DNA letters
-    query_seqs = discard_ambiguous_seqs(ambiguous_query_seqs)
-    query_names = list()
-    i = 0
+    query_seqs: list = discard_ambiguous_seqs(ambiguous_query_seqs)
+    query_names: list = list()
+    i: int = 0
     for seq in range(len(ambiguous_query_seqs)):
         if ambiguous_query_seqs[seq].__eq__(query_seqs[i]):
             query_names.append(ambiguous_query_names[seq])
@@ -127,7 +136,8 @@ def map_reads(query_path, reference_path):
     nucleotide_frequencies(reference_seqs)
 
     # create dictionaries
-    outer_dict = {}
+    outer_dict: dict = {}
+    pos: int
 
     for q in range(len(query_seqs)):
         inner_dict = {}
@@ -152,5 +162,6 @@ def map_reads(query_path, reference_path):
 if __name__ == '__main__':
     try:
         map_reads(sys.argv[1], sys.argv[2])
-    except:
-        print('ERROR: Please input "python process_fasta.py <path to query file> <path to reference file>"!')
+    except IndexError or FileNotFoundError:
+        print('ERROR: Please input "python process_fasta.py '
+              '<path to query file> <path to reference file>"!')

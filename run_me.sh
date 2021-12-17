@@ -1,4 +1,4 @@
-cd src/resources
+cd src/resources || exit
 
 # Create index
 STAR  --runMode genomeGenerate --genomeFastaFiles Mus_musculus.GRCm38.dna_rm.chr19.fa --sjdbGTFfile Mus_musculus.GRCm38.88.chr19.gtf --genomeSAindexNbases 11
@@ -40,3 +40,4 @@ flake8
 
 # pytest
 # TODO
+

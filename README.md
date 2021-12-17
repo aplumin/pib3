@@ -1,19 +1,20 @@
-# Programming in Bioinformatics 3 - Aaron Plumin
+# Programming in Bioinformatics, Part 3 - Aaron Plumin
+These sequencing exercises involve some fundamental manipulations and analyses of DNA/RNA sequencing data.
 
-For now, I left all the STAR output in the repository.
+## Prerequisites
+The script requires bash on a Unix terminal.
 
-## TODO update environment.yml
-## TODO complete run_me.sh
-## TODO check .gitignore
-## TODO write tests
-## TODO check flake8
-## TODO add type hints (Add type hints to your custom Python function/method signatures. It will be enough to only add type hints for all input arguments and the return values, although you are of course welcome to add them for any local variables as well)
-## TODO check docstrings
+It is easiest to use a `conda` environment (see https://docs.conda.io/en/latest/miniconda.html for details).
+The environment dependencies are listed in the `environment.yml` file. 
 
+Sequence alignments are done by the software `STAR` (see https://github.com/alexdobin/STAR), which is available via 
+the conda package manager. To install `STAR`, run: `conda install -c bioconda star`, or alternatively refer to the 
+distribution.
 
-## TODO instructions on how to deploy (e.g., set up a Conda environment or build a Docker image; see below)
+## Run the code
+All the code for the exercises is included in the shell script `run_me.sh`,
+which can be run with `bash run_me.sh` on a terminal with bash.
 
-## TODO instructions to run code
 
 ## Answers to exercises
 ### Session 1, Exercise 1.4
@@ -39,7 +40,8 @@ G: 0.3
 
 T: 0.2
 
-{'sequence1': {'chr1': [759], 'chr2': [], 'chr3': [], 'chr4': []}, 'sequence2': {'chr1': [], 'chr2': [1422], 'chr3': [], 'chr4': []}, 'sequence4': {'chr1': [], 'chr2': [1039], 'chr3': [1422], 'chr4': [1455]}}
+{'sequence1': {'chr1': [759], 'chr2': [], 'chr3': [], 'chr4': []}, 'sequence2': {'chr1': [], 'chr2': [1422], 
+'chr3': [], 'chr4': []}, 'sequence4': {'chr1': [], 'chr2': [1039], 'chr3': [1422], 'chr4': [1455]}}
 
 ### Interpretation:
 
@@ -62,8 +64,10 @@ How many reads were mapped to multiple loci?
 
 How many reads could not be mapped?
 
-2148 (actually, 2144 were unmapped and 4 mapped to too many loci - I left the max at the default of 10 - according to the log file Log.final.out, where all the numbers of unique, multi-mapping, and unmapped reads can also be found).
+2148 (actually - according to the log file Log.final.out, where all the numbers of unique, multi-mapping, and unmapped 
+reads can also be found - 2144 were unmapped and 4 mapped to too many loci; I left the max at the default of 10).
 
-Compare the sum of uniquely mapped, multi-mapped and unmapped reads to the total number of reads in the FASTQ input files. Do the numbers match?
+Compare the sum of uniquely mapped, multi-mapped and unmapped reads to the total number of reads in the FASTQ input 
+files. Do the numbers match?
 
 Yes (2*10000 - 17672 - 180 - 2148 = 0).
