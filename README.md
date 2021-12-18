@@ -1,5 +1,3 @@
-# TODO pytest, test coverage
-
 # Programming in Bioinformatics, Part 3 - Aaron Plumin
 These sequencing exercises involve some fundamental manipulations and analyses of DNA sequencing data.
 
