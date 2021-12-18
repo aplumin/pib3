@@ -91,7 +91,10 @@ def nucleotide_frequencies(
                 counters[3] += 1
 
     total_nucs: np.array = np.sum(counters)
-    frequencies: np.array = np.round(counters / total_nucs, 1)
+    if total_nucs > 0:
+        frequencies: np.array = np.round(counters / total_nucs, 1)
+    else:
+        frequencies = np.array([0, 0, 0, 0])
 
     print('A:', frequencies[0])
     print('C:', frequencies[1])
@@ -163,5 +166,5 @@ if __name__ == '__main__':
     try:
         map_reads(sys.argv[1], sys.argv[2])
     except IndexError or FileNotFoundError:
-        print('ERROR: Please input "python process_fasta.py '
+        print('ERROR: Please input as arguments '
               '<path to query file> <path to reference file>"!')

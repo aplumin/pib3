@@ -238,7 +238,6 @@ dependencies:
   - pyrsistent=0.17.3=py38haf1e3a3_0
   - pysocks=1.7.1=py38_1
   - pytables=3.6.1=py38h4727e94_0
-  - pytest=6.2.3=py38hecd8cb5_2
   - python=3.8.8=h88f2d9e_5
   - python-dateutil=2.8.1=pyhd3eb1b0_0
   - python-jsonrpc-server=0.4.0=py_0

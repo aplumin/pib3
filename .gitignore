@@ -292,3 +292,11 @@ src/resources/Log.final.out
 src/resources/Log.out
 src/resources/Log.progress.out
 src/resources/SJ.out.tab
+
+# Test files
+tests/test_invalid.sam
+tests/test_valid.sam
+tests/test_valid.fa
+tests/test_parse_fasta.fa
+tests/test_query.fa
+tests/test_reference.fa

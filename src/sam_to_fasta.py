@@ -24,9 +24,14 @@ def main(
         current_header: str = ""
         if not line.startswith('@'):
             if len(line) > 0:
-                for field in range(9):
-                    current_header += line_fields[field]
-                    current_header += " "
+                try:
+                    for field in range(8):
+                        current_header += line_fields[field]
+                        current_header += "\t"
+                except IndexError:
+                    print("ERROR: not a valid SAM format!")
+                    return
+                current_header += line_fields[8]
                 headers.append(current_header)
                 sequences.append(line_fields[9])
 
@@ -38,12 +43,12 @@ def main(
         fasta.write(sequences[seq])
         fasta.write("\n")
     fasta.close()
-    print("SUCCESS: FASTA file", sys.argv[2], "created!")
+    print("SUCCESS: FASTA file", fasta_path, "created!")
 
 
 if __name__ == '__main__':
     try:
         main(sys.argv[1], sys.argv[2])
     except IndexError or FileNotFoundError:
-        print('ERROR: Please input "python sam_to_fasta.py'
-              ' <path to existing SAM file> <path to FASTA file>"!')
+        print('ERROR: Please input as arguments '
+              '"<path to existing SAM file> <path to FASTA file>"!')
