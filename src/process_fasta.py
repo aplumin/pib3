@@ -6,13 +6,13 @@ import numpy as np
 def parse_fasta(
         path: str,
 ) -> (list, list):
-    """Parse headers and sequences of a PASTA file.
+    """Get headers and sequences of a PASTA file.
 
     Args:
         path: path to PASTA file
 
     Returns:
-        tuple of list of headers and list of sequences
+        tuple of a list with headers and a list with sequences
     """
     content: list = open(path, 'r').readlines()
     headers: list = list()
@@ -26,7 +26,7 @@ def parse_fasta(
                 sequences.append(current_seq)
                 current_seq = ""
         else:  # append line of continuous sequence
-            current_seq += line.strip()
+            current_seq += line.strip().replace(" ", "")
 
     # account for last sequence
     if len(current_seq) > 0:
@@ -116,8 +116,9 @@ def map_reads(
         reference_path: path to FASTA file with reference sequences
 
     Returns:
-        dictionary of query sequences and dictionary of reference sequences and
-        list of matching positions in reference sequence
+        dictionary of query sequences and another dictionary, which contains
+        reference sequences and a list of matching positions of queries in the
+        references
     """
     # parse files
     ambiguous_query_names, ambiguous_query_seqs = parse_fasta(query_path)

@@ -30,7 +30,7 @@ def create_sam_valid(
 def create_sam_invalid(
         path: str,
 ) -> None:
-    """Create a file not conforming to SAM formatting.
+    """Create a file for testing not conforming to SAM formatting.
 
     Args:
         path: path to invalid SAM file
@@ -64,7 +64,7 @@ def test_sam_to_fasta_valid(
 
 def test_sam_to_fasta_invalid_path(
 ) -> None:
-    """Test whether FileNotFoundError if an invalid path is given.
+    """Test for FileNotFoundError if an invalid path is given.
 
     Returns:
         None

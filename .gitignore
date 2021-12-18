@@ -300,3 +300,5 @@ tests/test_valid.fa
 tests/test_parse_fasta.fa
 tests/test_query.fa
 tests/test_reference.fa
+tests/test_query_1.fa
+tests/test_query_2.fa

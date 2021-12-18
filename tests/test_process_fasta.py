@@ -14,7 +14,7 @@ def create_fasta(
         path: path to test FASTA file
 
     Returns:
-        tuple of FASTA header and content lists
+        tuple of FASTA list with headers list with contents
     """
     # Create test file
     test_file = open(path, 'w')
@@ -96,10 +96,10 @@ def test_discard_ambiguous_seqs_invalid(
         discard_ambiguous_seqs(42)
 
 
-def test_nucleotide_frequencies(
+def test_nucleotide_frequencies_empty(
         capfd: CaptureFixture,
 ) -> None:
-    """Test whether nucleotide frequencies are printed correctly.
+    """Test whether sequences without nucleotide letters are identified.
 
     Args:
         capfd: CaptureFixture of output
@@ -107,17 +107,26 @@ def test_nucleotide_frequencies(
     Returns:
         None
     """
-    # empty list
     nucleotide_frequencies([])
     out, err = capfd.readouterr()
     assert out == "A: 0\nC: 0\nG: 0\nT: 0\n"
 
-    # no nucleotides
     nucleotide_frequencies(["number 42!"])
     out, err = capfd.readouterr()
     assert out == "A: 0\nC: 0\nG: 0\nT: 0\n"
 
-    # valid input
+
+def test_nucleotide_frequencies_valid(
+        capfd: CaptureFixture,
+) -> None:
+    """Test whether frequencies with nucleotide letters are printed correctly.
+
+    Args:
+        capfd: CaptureFixture of output
+
+    Returns:
+        None
+    """
     nucleotide_frequencies(["A"])
     out, err = capfd.readouterr()
     assert out == "A: 1.0\nC: 0.0\nG: 0.0\nT: 0.0\n"
@@ -126,28 +135,44 @@ def test_nucleotide_frequencies(
     out, err = capfd.readouterr()
     assert out == "A: 0.5\nC: 0.3\nG: 0.2\nT: 0.1\n"
 
-    # mixed input
-    nucleotide_frequencies(["AAAAACCCGGTX"])
+
+def test_nucleotide_frequencies_mixed(
+        capfd: CaptureFixture,
+) -> None:
+    """Test frequencies of sequences also containing other letters.
+
+    Args:
+        capfd: CaptureFixture of output
+
+    Returns:
+        None
+    """
+    nucleotide_frequencies(["AAXAAACCCGGTX"])
     out, err = capfd.readouterr()
     assert out == "A: 0.5\nC: 0.3\nG: 0.2\nT: 0.1\n"
 
 
 def init_map_reads(
-        query_path: str,
+        query_path_1: str,
+        query_path_2: str,
         reference_path: str,
 ) -> None:
     """Create test files for test_map_reads.
 
     Args:
-        query_path: path to test query file
+        query_path_1: path to test query file 1
+        query_path_2: path to test query file 2
         reference_path: path to test reference file
 
     Returns:
         None
     """
-    query_file = open(query_path, 'w')
+    query_file = open(query_path_1, 'w')
     query_file.write(">seq1\nAAAAA\n>seq2\nCCCCC")
     query_file.close()
+    query_file_2 = open(query_path_2, 'w')
+    query_file_2.write(">seq1\nAA\n>seq2\nAG")
+    query_file_2.close()
     reference_file = open(reference_path, 'w')
     reference_file.write(">ref1\nAAAAA\n>ref2\nTTTTT")
     reference_file.close()
@@ -164,8 +189,9 @@ def test_map_reads_output(
     Returns:
         None
     """
-    init_map_reads("test_query.fa", "test_reference.fa")
-    map_reads("test_query.fa", "test_reference.fa")
+    init_map_reads("test_query_1.fa", "test_query_2.fa",
+                   "test_reference.fa")
+    map_reads("test_query_1.fa", "test_reference.fa")
     out, err = capfd.readouterr()
     assert out == "Nucleotide fractions queries:\n" \
                   "A: 0.5\nC: 0.5\nG: 0.0\nT: 0.0\n" \
@@ -175,15 +201,24 @@ def test_map_reads_output(
 
 def test_map_reads_dictionary(
 ) -> None:
-    """Test dictionary map_reads returns.
+    """Test dictionary that map_reads returns.
 
     Returns:
         None
     """
-    init_map_reads("test_query.fa", "test_reference.fa")
-    read_dict = map_reads("test_query.fa", "test_reference.fa")
-    assert len(read_dict) == 2
-    assert read_dict["seq1"]["ref1"] == [1]  # offset 1
-    assert read_dict["seq1"]["ref2"] == []
-    assert read_dict["seq2"]["ref1"] == []
-    assert read_dict["seq2"]["ref2"] == []
+    init_map_reads("test_query_1.fa", "test_query_2.fa",
+                   "test_reference.fa")
+    read_dict_1 = map_reads("test_query_1.fa", "test_reference.fa")
+    assert len(read_dict_1) == 2
+    assert read_dict_1["seq1"]["ref1"] == [1]  # offset 1
+    assert read_dict_1["seq1"]["ref2"] == []
+    assert read_dict_1["seq2"]["ref1"] == []
+    assert read_dict_1["seq2"]["ref2"] == []
+
+    # multiple hits in one sequence
+    read_dict_2 = map_reads("test_query_2.fa", "test_reference.fa")
+    assert len(read_dict_2) == 2
+    assert read_dict_2["seq1"]["ref1"] == [1, 2, 3, 4]  # offset 1
+    assert read_dict_2["seq1"]["ref2"] == []
+    assert read_dict_2["seq2"]["ref1"] == []
+    assert read_dict_2["seq2"]["ref2"] == []

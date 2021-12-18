@@ -3,9 +3,10 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - _anaconda_depends=2020.07=py38_0
   - _ipyw_jlab_nb_ext_conf=0.1.0=py38_0
   - alabaster=0.7.12=pyhd3eb1b0_0
-  - anaconda=2021.05=py38_0
+  - anaconda=custom=py38_1
   - anaconda-client=1.7.2=py38_0
   - anaconda-navigator=2.1.1=py38_0
   - anaconda-project=0.9.1=pyhd3eb1b0_1
@@ -43,15 +44,15 @@ dependencies:
   - brotlipy=0.7.0=py38h9ed2024_1003
   - bzip2=1.0.8=h1de35cc_0
   - c-ares=1.17.1=h9ed2024_0
-  - ca-certificates=2021.4.13=hecd8cb5_1
-  - certifi=2020.12.5=py38hecd8cb5_0
+  - ca-certificates=2021.10.26=hecd8cb5_2
+  - certifi=2021.10.8=py38hecd8cb5_0
   - cffi=1.14.5=py38h2125817_0
   - chardet=4.0.0=py38hecd8cb5_1003
   - click=7.1.2=pyhd3eb1b0_0
   - cloudpickle=1.6.0=py_0
   - clyent=1.2.2=py38_1
   - colorama=0.4.4=pyhd3eb1b0_0
-  - conda=4.10.3=py38hecd8cb5_0
+  - conda=4.11.0=py38hecd8cb5_0
   - conda-build=3.21.4=py38hecd8cb5_0
   - conda-content-trust=0.1.1=pyhd3eb1b0_0
   - conda-env=2.6.0=1
@@ -143,6 +144,7 @@ dependencies:
   - libiconv=1.16=h1de35cc_0
   - liblief=0.10.1=h0a44026_0
   - libllvm10=10.0.1=h76017ad_5
+  - libllvm9=9.0.1=h21ff451_1
   - libpng=1.6.37=ha441bb4_0
   - libsodium=1.0.18=h1de35cc_0
   - libspatialindex=1.9.3=h23ab428_0
@@ -193,7 +195,7 @@ dependencies:
   - numpydoc=1.1.0=pyhd3eb1b0_1
   - olefile=0.46=py_0
   - openpyxl=3.0.7=pyhd3eb1b0_0
-  - openssl=1.1.1k=h9ed2024_0
+  - openssl=1.1.1l=h9ed2024_0
   - packaging=20.9=pyhd3eb1b0_0
   - pandas=1.2.4=py38h23ab428_0
   - pandoc=2.12=hecd8cb5_0
@@ -204,6 +206,7 @@ dependencies:
   - path.py=12.5.0=0
   - pathlib2=2.3.5=py38hecd8cb5_2
   - pathspec=0.7.0=py_0
+  - pathtools=0.1.2=pyhd3eb1b0_1
   - patsy=0.5.1=py38_0
   - pcre=8.44=hb1e8313_0
   - pep8=1.7.1=py38_0
@@ -238,6 +241,7 @@ dependencies:
   - pyrsistent=0.17.3=py38haf1e3a3_0
   - pysocks=1.7.1=py38_1
   - pytables=3.6.1=py38h4727e94_0
+  - pytest=6.2.5=py38hecd8cb5_2
   - python=3.8.8=h88f2d9e_5
   - python-dateutil=2.8.1=pyhd3eb1b0_0
   - python-jsonrpc-server=0.4.0=py_0
@@ -270,6 +274,7 @@ dependencies:
   - singledispatch=3.6.1=pyhd3eb1b0_1001
   - sip=4.19.8=py38h0a44026_0
   - six=1.15.0=py38hecd8cb5_0
+  - snappy=1.1.8=hb1e8313_0
   - sniffio=1.2.0=py38hecd8cb5_1
   - snowballstemmer=2.1.0=pyhd3eb1b0_0
   - sortedcollections=2.1.0=pyhd3eb1b0_0
