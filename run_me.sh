@@ -39,4 +39,4 @@ cd ..
 flake8
 
 # pytest
-# pytest
+PYTHONPATH=./ python -m pytest --cov-report html --cov=./src
