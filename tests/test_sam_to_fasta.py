@@ -1,6 +1,10 @@
 """Test sam_to_fasta."""
+
+from pathlib import Path
+
 import pytest
 from _pytest.capture import CaptureFixture
+
 from src.sam_to_fasta import main
 
 
@@ -50,9 +54,16 @@ def test_sam_to_fasta_valid(
     Returns:
         None
     """
-    create_sam_valid("test_valid.sam")
-    main("test_valid.sam", "test_valid.fa")
-    fasta_content = open("test_valid.fa", 'r').readlines()
+    create_sam_valid(
+        Path(__file__).parents[0] / 'test_files' / 'test_valid.sam',
+    )
+    main(
+        Path(__file__).parents[0] / 'test_files' / 'test_valid.sam',
+        Path(__file__).parents[0] / 'test_files' / 'test_valid.fa',
+    )
+    fasta_content = open(
+        Path(__file__).parents[0] / 'test_files' / 'test_valid.fa', 'r'
+    ).readlines()
     assert len(fasta_content) == 4
     assert fasta_content[0] == ">QNAME\tFLAG\tRNAME\tPOS\tMAPQ\tCIGAR" \
                                "\tRNEXT\tPNEXT\tTLEN\n"
@@ -85,8 +96,13 @@ def test_sam_to_fasta_invalid_format(
     Returns:
         None
     """
-    create_sam_invalid("test_invalid.sam")
-    main("test_invalid.sam", "test_invalid.fa")
+    create_sam_invalid(
+        Path(__file__).parents[0] / 'test_files' / 'test_invalid.sam',
+    )
+    main(
+        Path(__file__).parents[0] / 'test_files' / 'test_invalid.sam',
+        "test_invalid.fa",
+    )
     # FASTA not created
     with pytest.raises(FileNotFoundError):
         open("test_invalid.fa", 'r')

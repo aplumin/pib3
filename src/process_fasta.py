@@ -92,7 +92,7 @@ def nucleotide_frequencies(
 
     total_nucs: np.array = np.sum(counters)
     if total_nucs > 0:
-        frequencies: np.array = np.round(counters / total_nucs, 1)
+        frequencies: np.array = np.round(counters / total_nucs, 2)
     else:
         frequencies = np.array([0, 0, 0, 0])
 
@@ -165,7 +165,8 @@ def map_reads(
 
 if __name__ == '__main__':
     try:
-        map_reads(sys.argv[1], sys.argv[2])
+        results = map_reads(sys.argv[1], sys.argv[2])
+        print(results)
     except IndexError or FileNotFoundError:
         print('ERROR: Please input as arguments '
               '<path to query file> <path to reference file>"!')
