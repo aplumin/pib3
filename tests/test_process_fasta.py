@@ -1,6 +1,10 @@
 """Test process_fasta."""
+
+from pathlib import Path
+
 import pytest
 from _pytest.capture import CaptureFixture
+
 from src.process_fasta import parse_fasta, discard_ambiguous_seqs,\
     nucleotide_frequencies, map_reads
 
@@ -31,7 +35,9 @@ def test_parse_fasta_length(
     Returns:
         None
     """
-    h, s = create_fasta("test_parse_fasta.fa")
+    h, s = create_fasta(
+        Path(__file__).parents[0] / 'test_files' / 'test_parse_fasta.fa',
+    )
     assert len(h) == 2
     assert len(s) == 2
 
@@ -43,7 +49,9 @@ def test_parse_fasta_content(
     Returns:
         None
     """
-    h, s = create_fasta("test_parse_fasta.fa")
+    h, s = create_fasta(
+        Path(__file__).parents[0] / 'test_files' / 'test_parse_fasta.fa',
+    )
     assert h[0] == "seq1"
     assert h[1] == "seq2"
     assert s[0] == "TEST"
@@ -133,7 +141,7 @@ def test_nucleotide_frequencies_valid(
 
     nucleotide_frequencies(["AAAAACCCGGT"])
     out, err = capfd.readouterr()
-    assert out == "A: 0.5\nC: 0.3\nG: 0.2\nT: 0.1\n"
+    assert out == "A: 0.45\nC: 0.27\nG: 0.18\nT: 0.09\n"
 
 
 def test_nucleotide_frequencies_mixed(
@@ -149,7 +157,7 @@ def test_nucleotide_frequencies_mixed(
     """
     nucleotide_frequencies(["AAXAAACCCGGTX"])
     out, err = capfd.readouterr()
-    assert out == "A: 0.5\nC: 0.3\nG: 0.2\nT: 0.1\n"
+    assert out == "A: 0.45\nC: 0.27\nG: 0.18\nT: 0.09\n"
 
 
 def init_map_reads(
@@ -189,9 +197,15 @@ def test_map_reads_output(
     Returns:
         None
     """
-    init_map_reads("test_query_1.fa", "test_query_2.fa",
-                   "test_reference.fa")
-    map_reads("test_query_1.fa", "test_reference.fa")
+    init_map_reads(
+        Path(__file__).parents[0] / 'test_files' / 'test_query_1.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_query_2.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_reference.fa',
+    )
+    map_reads(
+        Path(__file__).parents[0] / 'test_files' / 'test_query_1.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_reference.fa',
+    )
     out, err = capfd.readouterr()
     assert out == "Nucleotide fractions queries:\n" \
                   "A: 0.5\nC: 0.5\nG: 0.0\nT: 0.0\n" \
@@ -206,9 +220,15 @@ def test_map_reads_dictionary(
     Returns:
         None
     """
-    init_map_reads("test_query_1.fa", "test_query_2.fa",
-                   "test_reference.fa")
-    read_dict_1 = map_reads("test_query_1.fa", "test_reference.fa")
+    init_map_reads(
+        Path(__file__).parents[0] / 'test_files' / 'test_query_1.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_query_2.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_reference.fa',
+    )
+    read_dict_1 = map_reads(
+        Path(__file__).parents[0] / 'test_files' / 'test_query_1.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_reference.fa',
+    )
     assert len(read_dict_1) == 2
     assert read_dict_1["seq1"]["ref1"] == [1]  # offset 1
     assert read_dict_1["seq1"]["ref2"] == []
@@ -216,7 +236,10 @@ def test_map_reads_dictionary(
     assert read_dict_1["seq2"]["ref2"] == []
 
     # multiple hits in one sequence
-    read_dict_2 = map_reads("test_query_2.fa", "test_reference.fa")
+    read_dict_2 = map_reads(
+        Path(__file__).parents[0] / 'test_files' / 'test_query_2.fa',
+        Path(__file__).parents[0] / 'test_files' / 'test_reference.fa',
+    )
     assert len(read_dict_2) == 2
     assert read_dict_2["seq1"]["ref1"] == [1, 2, 3, 4]  # offset 1
     assert read_dict_2["seq1"]["ref2"] == []
